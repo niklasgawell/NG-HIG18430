@@ -1,0 +1,73 @@
+\documentclass{article}
+\usepackage{graphicx}
+
+\title{HIG18430 - Slutuppgift}
+\date{2020-12-28}
+\author{Niklas Gawell}
+
+\begin{document}
+  \maketitle
+\section{Modellering, materialsättning och texturering}
+\subsection{Nisse}
+Nisse är från början ett försk att modellera en Alliumite från boken Creature Codex \cite{CreatureCodex}. Alliumiten är en korsning mellan en trädgårdstomte och en gul lök. Jag gav ganska snabbt upp försöket att göra en avbild, och betraktar bilden i boken  snarare som en inspiration, än en förebild.
+
+Jag utgick från ett fåtal promitiver som grundmodell. En kon med 12 sidor i mantelytan, två cylindrar som ben, och två cylindrar som armar. Längs konen och cylindrarna använde jag loop cut för att ge dem fler ytor, hörn och kanter att jobba med. Jag slog samman dem med boolean union till en mesh. Formade med hjälp av hörnskalning (armbågar, knän, fötter, huvud), proportionell flytt av hörn (näsa, ögon, öron) och extrusion (fingrar). Runt ögonen skapade jag extra ytor med hjälp av knivverktyget (K). Där armar och ben anslöt till kroppen fick jag en del knepiga ytor, kanter och hörn. De löste jag för hand genom att slå samman hörn där det passade, och skära ut nya kanter med knivverktyget (K) där så behövdes. Jag lade på en Subdivision surface-modifierare för att få en snyggare yta. 
+
+UV-mappen är gjord kroppsdel för kroppsdel, med plan projektion. Delarna har sedan lagts ut för att få ungefär samma riktining på allt, så att ådermönster och linjer i texturen passar bra.
+
+Texturerna är gjorda i Gimp \cite{gimp}. Framförallt skapade med hjälp av olika filter.
+
+\subsection{Spindeln}
+Spindeln är modellerad ur fantasin. Inte alls antatomiskt korrekt för en spindel, deras ben sitter ju på framkroppen.
+
+Spindeln är modellerad utifrån två lite större ico-sfärere för fram och bakkropp. Två små ico-sfärer som är ögnen, med två lite större halvsfärer ovanpå som ögonlock. Åtta cylindrar som ben, indelade i flera sektioner med hjälp av loop cut. Alla delar slogs samman med hjälp av boolsk union. Skarvarna mellan alla delarna hade många problematiska hörn och ytor. De löstes genom att slå samman hörn som var närliggande, samt att skapa nya ytor med knivverktyget. Form på ben, kropp och huvud justerades sedan med proportionell manipulering, skalning av hörn kring leder i ben för att åstadkomma knän samt skalning och förflyttning av hörn i kropp och på huvud för att få till bra kropps och ansiktsform. Hela kroppen har en subdivison surfacemoddifierare för att bli jämnare i kanten. Det såg dåligt ut i övergång mellan ögonlock och öga, så där delade jag meshen i tre delar.
+
+UV-mappen är en planprojektion uppifrån för ovansidan av kroppen, underifrån för undersidan av kroppen, samt en planprojketion framifrån för ansiktet.
+
+Texturerna är handmålade i Gimp.
+
+\subsection{Träd}
+
+De två träden är handmodellerade  utifrån en kon med sju sidor i mantelytan. Konen är skuren på längden i flera sektioner. Några av ytorna har extruderats till grenar, som i sin tur har skurits på längden med loop cut. Med hjälp av proportionell manipulering har jag sedan dragit i hörn för att få till en knotigt och spetsigt utseende.
+
+UV-mappningen är automatgenererad av konen och extrusion.
+
+Texturer är skapade med en enkel noise texture.
+
+\subsection{Stenar}
+
+Stenarna är kuber, skalade till form, delade med loop cut, och hörn flyttade med proportionell manipulering. Textturen är en noise  skapad med noise.
+
+\subsection{Mark, himmel, dimma}
+Marken är ett plan, uppdelad i 100x100 rutor. Slumpmässiga hörn är flyttade i z-led med proportionell manipulering.
+
+Himlen är gjord med Dynamic sky-addon.
+
+Dimman är en kub, med ett enkelt volumetrikst, enfärgat material. Den döljer i stort sett himlen, men har som främsta uppgift att hindra att bakgrunden ser så tom ut. Eftersom jag hade problem med spindelns ögon och den volumetriska dimman, exkluderade jag ögonen från volumetrin. 
+\section{Animation}
+\subsection{Nisse}
+
+Nisse är riggad med ben i alla extremiteter. Eftersom han inte skulle röra sig så mycket, är inte hela hans skelett ihopkopplat. Hörnen tilldelades till ben automatiskt. Jag använder frammåtkinematik för att animera honom. 
+
+Nisses ansikte är animerat med Shape Keys. Han har tre ansiktsuttryck som jag blandar mellan med key frames.
+
+\subsection{Spindeln}
+
+Spindeln är riggad med fyra ben per ben, och två ben ut till huvudet. Hörnen är satta automatiskt. Ögonen, både meshar och lampor sitter på det yttersta huvudbenet. Utöver det finns det ett kontrollben per fot, ett kontrollben på huvudet och ett kontrollben för kroppen. Kontrollbenen styr riggningen med omvänd kinematik. Varje fot är handanimerad för att gången ska se ojämn och inte så robotisk ut. 
+
+\subsection{Träd}
+
+Träden är riggade med ett par ben per gren, med kontrollben i slutet av varje gren, samt ett ben som styr alla kontrollben Kontrollbenen är kopplade till benen i grenarna med omvänd kinematik. IK-kedjan når genom grenen, men inte genom stamen. Tanken var att de skulle vaja illavarslande i vinden, den effekten blev ganska tam, och syns knapp.
+
+\section{Rendrering}
+
+Scenen har tre kameror. De rendrears var för sig och klipps sedan ner i edit-1.blend till en lång tagning. 
+
+Rendreringen görs i Eeevee, jag testade också Cycles, men gillade resultate i Eevee bättre.
+
+Ljuset i scenen kommer från fyra källor. Himlen har ett lila bakgrundsljus. Det finns en blå arealampa som ska efterlikna månljuset. Spindelns ögon har två kopplade gröna spotligts. I Nisses eld finns en orange punktlampa.
+
+\section{Referenser}
+\bibliography{bibtex} 
+\bibliographystyle{ieeetr}
+\end{document}
